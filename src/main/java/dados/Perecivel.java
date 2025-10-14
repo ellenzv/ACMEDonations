@@ -8,6 +8,16 @@ public class Perecivel extends Doacao{
         return tipoPerecivel;
     }
 
+    public int getValidade() {
+        return validade;
+    }
+
+    public Perecivel(String descricao, double valor, int quantidade, TipoPerecivel tipoPerecivel, int validade, Doador doador) {
+        super(descricao, valor, quantidade, doador);
+        this.validade = validade;
+        this.tipoPerecivel = tipoPerecivel;
+    }
+
     @Override
     public String geraResumo(){
         return "";

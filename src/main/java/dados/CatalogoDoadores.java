@@ -1,7 +1,7 @@
 package dados;
 
 import java.io.*;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
 
@@ -12,31 +12,42 @@ public class CatalogoDoadores {
         doadores = new ArrayList<>();
     }
 
-    public void lerArquivo() {
-        List<Doador> novosDoadores = new ArrayList<>();
-        Path path = Paths.get("recursos","doadores.csv");
-        try (BufferedReader br = Files.newBufferedReader(path,
-                Charset.forName("UTF8"))) {
-            String linha = null;
+    public void lerArquivoDoadores() {
+
+        Path path = Paths.get("recursos", "doadores.csv");
+        try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+            String linha;
+            br.readLine();
+
             while ((linha = br.readLine()) != null) {
-                // separador: ;
                 Scanner sc = new Scanner(linha).useDelimiter(";");
-                String nome;
-                String email;
-                nome = sc.next();
-                email = sc.next();
-                Doador novoDoador = new Doador(nome, email);
-                for (Doador doador : doadores){
-                    if(!doador.getEmail().equals(novoDoador.getEmail())){
-                        doadores.add(novoDoador);
-                    }else{
-                        System.out.println("1:ERRO:doador repetido");
-                    }
-                }
+                String nome = sc.next();
+                String email = sc.next();
+
+                cadastrarDoador(nome, email);
+            }
+        } catch (IOException e) {
+            System.err.format("Erro ao ler o arquivo: %s%n", e);
+        }
+    }
+
+    public void cadastrarDoador(String nome, String email) {
+        for (Doador doador : doadores) {
+            if (doador.getEmail().equals(email)) {
+                System.out.println("1:ERRO:doador repetido");
+                return;
             }
         }
-        catch (IOException e) {
-            System.err.format("Erro de E/S: %s%n", e);
+        Doador novoDoador = new Doador(nome, email);
+        doadores.add(novoDoador);
+        System.out.println("1:" + novoDoador.getNome() + "," + novoDoador.getEmail());
+    }
+
+    public Doador consultarDoadorPorEmail(String email){
+        for (Doador doador : doadores){
+            if(doador.getEmail().equals(email))
+                return doador;
         }
+        return null;
     }
 }

@@ -16,4 +16,9 @@ public class Doador {
     public String getEmail() {
         return email;
     }
+
+    @Override
+    public String toString() {
+        return nome + ";" + email;
+    }
 }
