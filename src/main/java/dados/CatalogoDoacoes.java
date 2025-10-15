@@ -32,14 +32,9 @@ public class CatalogoDoacoes {
 
                 cadastrarDoacaoPerecivel(descricao, valor, quantidade, tipo, validade, email);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.format("Erro ao ler o arquivo: %s%n", e);
-        }
-        catch (NumberFormatException e){
-            System.out.println("2:ERRO:Formato invalido");
-        }
-        catch (NoSuchElementException e){
+        } catch (NumberFormatException e) {
             System.out.println("2:ERRO:Formato invalido");
         }
     }
@@ -54,7 +49,7 @@ public class CatalogoDoacoes {
         }
 
         Doador doador = this.catalogoDoadores.consultarDoadorPorEmail(email);
-        if(doador == null) {
+        if (doador == null) {
             System.out.println("2:ERRO:doador inexistente");
             return;
         }
@@ -63,5 +58,60 @@ public class CatalogoDoacoes {
 
         System.out.println("2:" + novaDoacaoPerecivel.getDescricao() + "," + novaDoacaoPerecivel.getValor() + "," +
                 novaDoacaoPerecivel.getQuantidade() + "," + novaDoacaoPerecivel.getTipoPerecivel() + "," + novaDoacaoPerecivel.getValidade());
+    }
+
+    public void lerArquivoDoacoesDuraveis() {
+
+        Path path = Paths.get("recursos", "doacoesduraveis.csv");
+        try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+            String linha;
+            br.readLine();
+
+            while ((linha = br.readLine()) != null) {
+                Scanner sc = new Scanner(linha).useDelimiter(";");
+                String descricao = sc.next();
+                double valor = Double.parseDouble(sc.next());
+                int quantidade = Integer.parseInt(sc.next());
+                String email = sc.next();
+                String tipo = sc.next();
+
+                cadastrarDoacaoDuravel(descricao, valor, quantidade, tipo, email);
+            }
+        } catch (IOException e) {
+            System.err.format("Erro ao ler o arquivo: %s%n", e);
+        } catch (NumberFormatException e) {
+            System.out.println("3:ERRO:Formato invalido");
+        }
+    }
+
+    public void cadastrarDoacaoDuravel(String descricao, double valor, int quantidade, String tipo, String email) {
+        TipoDuravel tipoDuravel = null;
+        try {
+            tipoDuravel = TipoDuravel.valueOf(tipo.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("3:ERRO:tipo invalido");
+            return;
+        }
+
+        Doador doador = catalogoDoadores.consultarDoadorPorEmail(email);
+
+        if (doador == null) {
+            System.out.println("3:ERRO:doador inexistente");
+            return;
+        }
+
+        Duravel novaDoacaoDuravel = new Duravel(descricao, valor, quantidade, tipoDuravel, doador);
+        doacoes.add(novaDoacaoDuravel);
+        System.out.println("3:" + novaDoacaoDuravel.getDescricao() + "," + novaDoacaoDuravel.getValor() + "," +
+                novaDoacaoDuravel.getQuantidade() + "," + novaDoacaoDuravel.getTipoDuravel());
+    }
+
+    public void listarDoacoesCadastradas() {
+        List<Doacao> listaDoacoes = new ArrayList<>();
+        if (doacoes.isEmpty())
+            System.out.println("5:ERRO:nenhuma doacao cadastrada");
+        for (Doacao doacao : doacoes) {
+            System.out.println("5:" + doacao.geraResumo());
+        }
     }
 }

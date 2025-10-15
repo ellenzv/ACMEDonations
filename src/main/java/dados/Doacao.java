@@ -25,6 +25,8 @@ public abstract class Doacao {
         return quantidade;
     }
 
+
+
     public Doador getDoador() {
         return doador;
     }
