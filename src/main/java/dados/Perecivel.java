@@ -23,4 +23,10 @@ public class Perecivel extends Doacao{
         return getDescricao() + "," + getValor() + "," + getQuantidade() + "," + getTipoPerecivel() + ","
                 + getValidade() + "," + getDoador().getNome() + "," + getDoador().getEmail();
     }
+
+    @Override
+    public String geraResumoSemNome() {
+        return getDescricao() + "," + getValor() + "," + getQuantidade() + "," + getTipoPerecivel() + ","
+                + getValidade() + "," + getDoador().getEmail();
+    }
 }

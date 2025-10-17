@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CatalogoDoacoes {
     private List<Doacao> doacoes;
@@ -68,14 +69,18 @@ public class CatalogoDoacoes {
             br.readLine();
 
             while ((linha = br.readLine()) != null) {
-                Scanner sc = new Scanner(linha).useDelimiter(";");
-                String descricao = sc.next();
-                double valor = Double.parseDouble(sc.next());
-                int quantidade = Integer.parseInt(sc.next());
-                String email = sc.next();
-                String tipo = sc.next();
+                try {
+                    Scanner sc = new Scanner(linha).useDelimiter(";");
+                    String descricao = sc.next();
+                    double valor = Double.parseDouble(sc.next());
+                    int quantidade = Integer.parseInt(sc.next());
+                    String email = sc.next();
+                    String tipo = sc.next();
 
-                cadastrarDoacaoDuravel(descricao, valor, quantidade, tipo, email);
+                    cadastrarDoacaoDuravel(descricao, valor, quantidade, tipo, email);
+                }catch (NoSuchElementException e){
+                    System.out.println("coisa");
+                }
             }
         } catch (IOException e) {
             System.err.format("Erro ao ler o arquivo: %s%n", e);
@@ -85,7 +90,7 @@ public class CatalogoDoacoes {
     }
 
     public void cadastrarDoacaoDuravel(String descricao, double valor, int quantidade, String tipo, String email) {
-        TipoDuravel tipoDuravel = null;
+        TipoDuravel tipoDuravel;
         try {
             tipoDuravel = TipoDuravel.valueOf(tipo.toUpperCase());
         } catch (IllegalArgumentException e) {
@@ -106,12 +111,46 @@ public class CatalogoDoacoes {
                 novaDoacaoDuravel.getQuantidade() + "," + novaDoacaoDuravel.getTipoDuravel());
     }
 
-    public void listarDoacoesCadastradas() {
-        List<Doacao> listaDoacoes = new ArrayList<>();
+    public void mostrarDoacoesCadastradas() {
         if (doacoes.isEmpty())
             System.out.println("5:ERRO:nenhuma doacao cadastrada");
         for (Doacao doacao : doacoes) {
             System.out.println("5:" + doacao.geraResumo());
         }
+    }
+
+    public void quantidadeDoacoesDoador() {
+        doacoes.stream()
+                .filter(doacao -> doacao.getDoador() != null)
+                .collect(Collectors.groupingBy(Doacao::getDoador, Collectors.counting()))
+                .forEach((doador, quantidade) -> System.out.println("6:" + doador.getNome() +
+                        "," + doador.getEmail() + "," + quantidade));
+    }
+
+    public void mostrarDoacoesDoador(String nome){
+        Doador doador = catalogoDoadores.consultarDoadorPorNome(nome);
+        boolean encontrado = false;
+
+        for (Doacao doacao : doacoes){
+            if (doacao.getDoador().equals(doador)){
+                System.out.println("7:" + doacao.geraResumoSemNome());
+                encontrado = true;
+            }
+        }
+        if(!encontrado){
+            System.out.println("7:ERRO:nenhuma doacao localizada");
+        }
+    }
+
+    public void mostrarDuraveisPorTipo(String tipo) {
+        TipoDuravel tipoDuravel;
+        try {
+            tipoDuravel = TipoDuravel.valueOf(tipo.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("3:ERRO:tipo invalido");
+            return;
+        }
+
+
     }
 }

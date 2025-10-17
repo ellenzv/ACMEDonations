@@ -25,11 +25,11 @@ public abstract class Doacao {
         return quantidade;
     }
 
-
-
     public Doador getDoador() {
         return doador;
     }
 
     public abstract String geraResumo();
+
+    public abstract String geraResumoSemNome();
 }

@@ -3,6 +3,7 @@ package aplicacao;
 import dados.CatalogoDoacoes;
 import dados.CatalogoDoadores;
 import dados.Doador;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
@@ -33,7 +34,10 @@ public class ACMEDonations {
         cadastrarDoacaoPerecivel();
         cadastrarDoacaoDuravel();
         consultarDoadorPorEmail();
-        listarTodasDoacoes();
+        mostrarTodasDoacoes();
+        quantidadeDoacoesDoador();
+        mostrarDoacoesDoador();
+        mostrarDoacoesDuravelPorTipo();
 
     }
 
@@ -53,21 +57,38 @@ public class ACMEDonations {
     }
 
     //4
-    private void consultarDoadorPorEmail(){
+    private void consultarDoadorPorEmail() {
         String email = input.nextLine();
         Doador doador = catalogoDoadores.consultarDoadorPorEmail(email);
 
-        if (doador == null){
+        if (doador == null) {
             System.out.println("4:ERRO:e-mail inexistente");
-        }else{
+        } else {
             System.out.println("4:" + doador.getNome() + "," + doador.getEmail());
         }
 
     }
 
     //5
-    public void listarTodasDoacoes(){
-        catalogoDoacoes.listarDoacoesCadastradas();
+    public void mostrarTodasDoacoes() {
+        catalogoDoacoes.mostrarDoacoesCadastradas();
+    }
+
+    //6
+    private void quantidadeDoacoesDoador() {
+        catalogoDoacoes.quantidadeDoacoesDoador();
+    }
+
+    //7
+    private void mostrarDoacoesDoador(){
+        String nome = input.nextLine();
+        catalogoDoacoes.mostrarDoacoesDoador(nome);
+    }
+
+    //8
+    private void mostrarDoacoesDuravelPorTipo(){
+        String tipo = input.nextLine();
+        catalogoDoacoes.mostrarDuraveisPorTipo(tipo);
     }
 
     //Códigos auxiliares para redirecionamento de entrada

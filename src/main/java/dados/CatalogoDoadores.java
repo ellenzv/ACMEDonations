@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CatalogoDoadores {
     private List<Doador> doadores;
@@ -20,11 +21,15 @@ public class CatalogoDoadores {
             br.readLine();
 
             while ((linha = br.readLine()) != null) {
-                Scanner sc = new Scanner(linha).useDelimiter(";");
-                String nome = sc.next();
-                String email = sc.next();
+                try {
+                    Scanner sc = new Scanner(linha).useDelimiter(";");
+                    String nome = sc.next();
+                    String email = sc.next();
 
-                cadastrarDoador(nome, email);
+                    cadastrarDoador(nome, email);
+                } catch (NoSuchElementException e) {
+                    System.out.println("Erro");
+                }
             }
         } catch (IOException e) {
             System.err.format("Erro ao ler o arquivo: %s%n", e);
@@ -43,9 +48,17 @@ public class CatalogoDoadores {
         System.out.println("1:" + novoDoador.getNome() + "," + novoDoador.getEmail());
     }
 
-    public Doador consultarDoadorPorEmail(String email){
+    public Doador consultarDoadorPorEmail(String email) {
+        for (Doador doador : doadores) {
+            if (doador.getEmail().equals(email))
+                return doador;
+        }
+        return null;
+    }
+
+    public Doador consultarDoadorPorNome(String nome) {
         for (Doador doador : doadores){
-            if(doador.getEmail().equals(email))
+            if(doador.getNome().equalsIgnoreCase(nome))
                 return doador;
         }
         return null;

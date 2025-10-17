@@ -1,9 +1,9 @@
 package dados;
 
-public class Duravel extends Doacao{
+public class Duravel extends Doacao {
     private TipoDuravel tipoDuravel;
 
-    public Duravel(String descricao, double valor, int quantidade, TipoDuravel tipoDuravel,  Doador doador) {
+    public Duravel(String descricao, double valor, int quantidade, TipoDuravel tipoDuravel, Doador doador) {
         super(descricao, valor, quantidade, doador);
         this.tipoDuravel = tipoDuravel;
     }
@@ -13,8 +13,14 @@ public class Duravel extends Doacao{
     }
 
     @Override
-    public String geraResumo(){
+    public String geraResumo() {
         return getDescricao() + "," + getValor() + "," + getQuantidade() + "," + getTipoDuravel() + ","
                 + getDoador().getNome() + "," + getDoador().getEmail();
+    }
+
+    @Override
+    public String geraResumoSemNome() {
+        return getDescricao() + "," + getValor() + "," + getQuantidade() + "," + getTipoDuravel() + ","
+                + getDoador().getEmail();
     }
 }
