@@ -4,7 +4,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CatalogoDoadores {
     private List<Doador> doadores;
@@ -28,7 +27,7 @@ public class CatalogoDoadores {
 
                     cadastrarDoador(nome, email);
                 } catch (NoSuchElementException e) {
-                    System.out.println("Erro");
+                    System.out.println("1:ERRO:formato invalido.");
                 }
             }
         } catch (IOException e) {
@@ -39,7 +38,7 @@ public class CatalogoDoadores {
     public void cadastrarDoador(String nome, String email) {
         for (Doador doador : doadores) {
             if (doador.getEmail().equals(email)) {
-                System.out.println("1:ERRO:doador repetido");
+                System.out.println("1:ERRO:doador repetido.");
                 return;
             }
         }
@@ -63,4 +62,14 @@ public class CatalogoDoadores {
         }
         return null;
     }
+
+//    public List<Doador> listaAuxiliarDoadores(){
+//        List<Doador> listaAux = new ArrayList<>();
+//
+//        for(Doador doador : doadores){
+//            if(doador != null)
+//                listaAux.add(doador);
+//        }
+//        return listaAux;
+//    }
 }

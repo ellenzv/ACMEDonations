@@ -38,6 +38,8 @@ public class ACMEDonations {
         quantidadeDoacoesDoador();
         mostrarDoacoesDoador();
         mostrarDoacoesDuravelPorTipo();
+        doacaoPerecivelMaiorQuantidade();
+        doadorMaiorMontante();
 
     }
 
@@ -62,7 +64,7 @@ public class ACMEDonations {
         Doador doador = catalogoDoadores.consultarDoadorPorEmail(email);
 
         if (doador == null) {
-            System.out.println("4:ERRO:e-mail inexistente");
+            System.out.println("4:ERRO:e-mail inexistente.");
         } else {
             System.out.println("4:" + doador.getNome() + "," + doador.getEmail());
         }
@@ -91,6 +93,17 @@ public class ACMEDonations {
         catalogoDoacoes.mostrarDuraveisPorTipo(tipo);
     }
 
+    //9
+    private void doacaoPerecivelMaiorQuantidade(){
+        String tipo = input.nextLine();
+        catalogoDoacoes.doacaoPerecivelMaiorQuantidade(tipo);
+    }
+
+    //10
+    private void doadorMaiorMontante() {
+        catalogoDoacoes.doadorMaiorMontante();
+    }
+
     //Códigos auxiliares para redirecionamento de entrada
     private void redirecionaEntrada() {
         Path path = Paths.get("recursos", "dadosentrada.txt");
@@ -113,8 +126,8 @@ public class ACMEDonations {
 //        }
 //        Locale.setDefault(Locale.ENGLISH);
 //    }
-//
-//    private void restauraSaida(){
-//        System.setOut(saidaPadrao);
-//    }
+
+    private void restauraSaida(){
+        System.setOut(saidaPadrao);
+    }
 }
