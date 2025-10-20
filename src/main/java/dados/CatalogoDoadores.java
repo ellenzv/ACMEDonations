@@ -63,13 +63,13 @@ public class CatalogoDoadores {
         return null;
     }
 
-//    public List<Doador> listaAuxiliarDoadores(){
-//        List<Doador> listaAux = new ArrayList<>();
-//
-//        for(Doador doador : doadores){
-//            if(doador != null)
-//                listaAux.add(doador);
-//        }
-//        return listaAux;
-//    }
+    public List<Doador> getDoadores(){
+        List<Doador> listaAux = new ArrayList<>();
+
+        for(Doador doador : doadores){
+            if(doador != null)
+                listaAux.add(doador);
+        }
+        return listaAux;
+    }
 }

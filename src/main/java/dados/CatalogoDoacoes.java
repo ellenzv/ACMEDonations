@@ -62,6 +62,7 @@ public class CatalogoDoacoes {
         }
         Perecivel novaDoacaoPerecivel = new Perecivel(descricao, valor, quantidade, tipoPerecivel, validade, doador);
         doacoes.add(novaDoacaoPerecivel);
+        doador.getDoacoesCadastradas().add(novaDoacaoPerecivel);
 
         System.out.println("2:" + novaDoacaoPerecivel.getDescricao() + "," + novaDoacaoPerecivel.getValor() + "," +
                 novaDoacaoPerecivel.getQuantidade() + "," + novaDoacaoPerecivel.getTipoPerecivel() + "," + novaDoacaoPerecivel.getValidade());
@@ -115,6 +116,7 @@ public class CatalogoDoacoes {
 
         Duravel novaDoacaoDuravel = new Duravel(descricao, valor, quantidade, tipoDuravel, doador);
         doacoes.add(novaDoacaoDuravel);
+        doador.getDoacoesCadastradas().add(novaDoacaoDuravel);
         System.out.println("3:" + novaDoacaoDuravel.getDescricao() + "," + novaDoacaoDuravel.getValor() + "," +
                 novaDoacaoDuravel.getQuantidade() + "," + novaDoacaoDuravel.getTipoDuravel());
     }
@@ -128,11 +130,21 @@ public class CatalogoDoacoes {
     }
 
     public void quantidadeDoacoesDoador() {
-        doacoes.stream()
-                .filter(doacao -> doacao.getDoador() != null)
-                .collect(Collectors.groupingBy(Doacao::getDoador, Collectors.counting()))
-                .forEach((doador, quantidade) -> System.out.println("6:" + doador.getNome() +
-                        "," + doador.getEmail() + "," + quantidade));
+        List<Doador> auxiliar = new ArrayList<>(catalogoDoadores.getDoadores());
+
+        if(auxiliar.isEmpty()){
+            System.out.println("6:ERRO:nenhum doador encontrado.");
+            return;
+        }
+        auxiliar.sort((doador1, doador2) -> Integer.compare(
+                doador2.getDoacoesCadastradas().size(),
+                doador1.getDoacoesCadastradas().size()
+        ));
+
+        for(Doador doador : auxiliar){
+            System.out.println("6:" + doador.getNome() + "," + doador.getEmail() + ","
+                    + doador.getDoacoesCadastradas().size());
+        }
     }
 
     public void mostrarDoacoesDoador(String nome) {
@@ -197,53 +209,30 @@ public class CatalogoDoacoes {
     }
 
     public void doadorMaiorMontante() {
-        if(doacoes.isEmpty()){
-            System.out.println("10:ERRO:nenhum doador localizado");
+        List<Doador> doadores = catalogoDoadores.getDoadores();
+
+        if (doadores.isEmpty()) {
+            System.out.println("10:ERRO:nenhum doador localizado.");
+            return;
         }
 
         Doador maiorDoador = null;
         double maiorMontante = 0;
-        Map<Doador, Double> montanteDoador = doacoes.stream()
-                .filter(doacao -> doacao.getDoador() != null)
-                .collect(Collectors.groupingBy(Doacao::getDoador, Collectors.summingDouble(Doacao::getValor)));
 
-        /*O for com map foi construído com ajuda do chatGPT porque não estava encontrando um jeito de percorrer o Map
-        do montanteDoador. Prompt: chat, estou fazendo um método para achar o doador com maior montante. Eu tenho o
-        seguinte código: Map<Doador, Double> montanteDoador = doacoes.stream()
-                .filter(doacao -> doacao.getDoador() != null)
-                .collect(Collectors.groupingBy(Doacao::getDoador, Collectors.summingDouble(Doacao::getValor)));
-        minha ideia é fazer um for para percorrer o Map criado podendo comparar os montantes agrupados. Mas meu for está
-        dando erro (for Doacao doacao : montanteDoador). O que está errado e como posso percorrer a coleção?*/
+        for (Doador doador : doadores) {
+            double montante = doador.getDoacoesCadastradas().stream()
+                    .mapToDouble(Doacao::getValor)
+                    .sum();
 
-        for (Map.Entry<Doador, Double> busca : montanteDoador.entrySet()) {
-            Doador doador = busca.getKey();
-            double total = busca.getValue();
-
-            if (total >= maiorMontante) {
-                maiorMontante = total;
+            if (montante >= maiorMontante) {
+                maiorMontante = montante;
                 maiorDoador = doador;
             }
         }
-        if(maiorDoador != null)
-            System.out.println("10:" + maiorDoador.getNome() + "," + maiorDoador.getEmail() + "," + maiorMontante);
 
-        //método feito antes, mas que acabava pegando todas as doações e retornava 477.77
-//        Doador maiorMontante = null;
-//        double montante = 0;
-//
-//        for (Doacao doacao : doacoes) {
-//            if (doacao.getValor() > montante) {
-//                montante += doacao.getValor();
-//                maiorMontante = doacao.getDoador();
-//            }
-//
-//        }
-//        if (maiorMontante != null) {
-//            System.out.println("10:" + maiorMontante.getNome() +
-//                    "," + maiorMontante.getEmail() + "," + montante);
-//        } else {
-//            System.out.println("10:ERRO:nenhum doador localizado.");
-//        }
+        if (maiorDoador != null) {
+            System.out.println("10:" + maiorDoador.getNome() + "," + maiorDoador.getEmail() + "," + maiorMontante);
+        }
     }
 
 }

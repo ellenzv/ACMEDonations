@@ -26,7 +26,7 @@ public class ACMEDonations {
         catalogoDoacoes = new CatalogoDoacoes(catalogoDoadores);
         input = new Scanner(System.in);
         redirecionaEntrada();
-        //redirecionaSaida();
+        redirecionaSaida();
     }
 
     public void executar() {
@@ -117,15 +117,15 @@ public class ACMEDonations {
         input.useLocale(Locale.ENGLISH);
     }
 
-//    private void redirecionaSaida() {
-//        try {
-//            PrintStream streamSaida = new PrintStream(new File(nomeArquivoSaida), StandardCharsets.UTF_8);
-//            System.setOut(streamSaida);
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
-//        Locale.setDefault(Locale.ENGLISH);
-//    }
+    private void redirecionaSaida() {
+        try {
+            PrintStream streamSaida = new PrintStream(new File(nomeArquivoSaida), StandardCharsets.UTF_8);
+            System.setOut(streamSaida);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        Locale.setDefault(Locale.ENGLISH);
+    }
 
     private void restauraSaida(){
         System.setOut(saidaPadrao);
