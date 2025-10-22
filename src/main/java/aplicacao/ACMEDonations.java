@@ -45,17 +45,17 @@ public class ACMEDonations {
 
     //1
     private void cadastrarDoadores() {
-        catalogoDoadores.lerArquivoDoadores();
+        System.out.println(catalogoDoadores.lerArquivoDoadores());
     }
 
     //2
     private void cadastrarDoacaoPerecivel() {
-        catalogoDoacoes.lerArquivoDoacoesPereciveis();
+        System.out.println(catalogoDoacoes.lerArquivoDoacoesPereciveis());
     }
 
     //3
     private void cadastrarDoacaoDuravel() {
-        catalogoDoacoes.lerArquivoDoacoesDuraveis();
+        System.out.println(catalogoDoacoes.lerArquivoDoacoesDuraveis());
     }
 
     //4
@@ -73,35 +73,35 @@ public class ACMEDonations {
 
     //5
     public void mostrarTodasDoacoes() {
-        catalogoDoacoes.mostrarDoacoesCadastradas();
+        System.out.println(catalogoDoacoes.mostrarDoacoesCadastradas());
     }
 
     //6
     private void quantidadeDoacoesDoador() {
-        catalogoDoacoes.quantidadeDoacoesDoador();
+        System.out.println(catalogoDoacoes.quantidadeDoacoesDoador());
     }
 
     //7
     private void mostrarDoacoesDoador(){
         String nome = input.nextLine();
-        catalogoDoacoes.mostrarDoacoesDoador(nome);
+        System.out.println(catalogoDoacoes.mostrarDoacoesDoador(nome));
     }
 
     //8
     private void mostrarDoacoesDuravelPorTipo(){
         String tipo = input.nextLine();
-        catalogoDoacoes.mostrarDuraveisPorTipo(tipo);
+        System.out.println(catalogoDoacoes.mostrarDuraveisPorTipo(tipo));
     }
 
     //9
     private void doacaoPerecivelMaiorQuantidade(){
         String tipo = input.nextLine();
-        catalogoDoacoes.doacaoPerecivelMaiorQuantidade(tipo);
+        System.out.println(catalogoDoacoes.doacaoPerecivelMaiorQuantidade(tipo));
     }
 
     //10
     private void doadorMaiorMontante() {
-        catalogoDoacoes.doadorMaiorMontante();
+        System.out.println(catalogoDoacoes.doadorMaiorMontante());
     }
 
     //Códigos auxiliares para redirecionamento de entrada

@@ -1,6 +1,9 @@
-DESCRICAO;VALOR;QUANTIDADE;DATA;E-MAIL;TIPO
-Vestido;22.22;2;maria.silva@email.com;VESTUARIO
-AAA
-
-TV;XX.YY;4;pedro_souza@email.com;ELETRODOMESTICO
-Mesa;66.66;6;maria.silva@email.com;MOVEL
+DESCRICAO;VALOR;QUANTIDADE;E-MAIL;TIPO
+Quebra cabeca;7.7;7;joana.lima@gmail.com;BRINQUEDO
+Moletom;66.66;6;mauro.moura@hotmail.com;ROUPA
+Uno;3.3;3;pedro_souza@email.com;BRINQUEDO
+Guarda roupa;99.99;9;joana.lima@gmail.com;MOVEL
+Carrinho de lomba;44.44;4;maria.silva@email.com;BRINQUEDO
+Mesa;55.55;5;pedro_souza@email.com;MOVEL
+Forno de microondas;88.88;8;mauro.moura@hotmail.com;ELETRODOMESTICO
+Casaco;22.22;2;pedro_souza@email.com;ROUPA

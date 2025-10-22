@@ -1,23 +1,41 @@
 1:Maria da Silva,maria.silva@email.com
-1:ERRO:formato invalido.
-1:ERRO:doador repetido.
-1:ERRO:formato invalido.
-1:ERRO:doador repetido.
-2:ERRO:doador inexistente.
-2:ERRO:formato invalido.
-2:Aspirina,22.22,2,MEDICAMENTO,22
-2:ERRO:formato invalido.
-2:ERRO:tipo invalido.
-3:ERRO:tipo invalido.
-3:ERRO:formato invalido.
-3:ERRO:formato invalido.
-3:ERRO:formato invalido.
-3:Mesa,66.66,6,MOVEL
-4:ERRO:e-mail inexistente.
-5:Aspirina,22.22,2,MEDICAMENTO,22,Maria da Silva,maria.silva@email.com
-5:Mesa,66.66,6,MOVEL,Maria da Silva,maria.silva@email.com
+1:Pedro de Souza,pedro_souza@email.com
+1:Mario de Moura,mauro.moura@hotmail.com
+1:Joana Lima,joana.lima@gmail.com
+2:Xarope,4.4,44,MEDICAMENTO,44
+2:Aspirina,22.22,22,MEDICAMENTO,22
+2:Leite,11.11,11,ALIMENTO,11
+2:Carne,33.33,33,ALIMENTO,33
+3:Quebra cabeca,7.7,7,BRINQUEDO
+3:Moletom,66.66,6,ROUPA
+3:Uno,3.3,3,BRINQUEDO
+3:Guarda roupa,99.99,9,MOVEL
+3:Carrinho de lomba,44.44,4,BRINQUEDO
+3:Mesa,55.55,5,MOVEL
+3:Forno de microondas,88.88,8,ELETRODOMESTICO
+3:Casaco,22.22,2,ROUPA
+4:Mario de Moura,mauro.moura@hotmail.com
+5:Xarope,4.4,44,MEDICAMENTO,44,Joana Lima,joana.lima@gmail.com
+5:Aspirina,22.22,22,MEDICAMENTO,22,Maria da Silva,maria.silva@email.com
+5:Leite,11.11,11,ALIMENTO,11,Pedro de Souza,pedro_souza@email.com
+5:Carne,33.33,33,ALIMENTO,33,Mario de Moura,mauro.moura@hotmail.com
+5:Quebra cabeca,7.7,7,BRINQUEDO,Joana Lima,joana.lima@gmail.com
+5:Moletom,66.66,6,ROUPA,Mario de Moura,mauro.moura@hotmail.com
+5:Uno,3.3,3,BRINQUEDO,Pedro de Souza,pedro_souza@email.com
+5:Guarda roupa,99.99,9,MOVEL,Joana Lima,joana.lima@gmail.com
+5:Carrinho de lomba,44.44,4,BRINQUEDO,Maria da Silva,maria.silva@email.com
+5:Mesa,55.55,5,MOVEL,Pedro de Souza,pedro_souza@email.com
+5:Forno de microondas,88.88,8,ELETRODOMESTICO,Mario de Moura,mauro.moura@hotmail.com
+5:Casaco,22.22,2,ROUPA,Pedro de Souza,pedro_souza@email.com
 6:Maria da Silva,maria.silva@email.com,2
-7:ERRO:nenhuma doacao localizada.
-8:ERRO:tipo invalido.
-9:ERRO:tipo invalido.
-10:Maria da Silva,maria.silva@email.com,88.88
+6:Pedro de Souza,pedro_souza@email.com,4
+6:Mario de Moura,mauro.moura@hotmail.com,3
+6:Joana Lima,joana.lima@gmail.com,3
+7:Xarope,4.4,44,MEDICAMENTO,44,joana.lima@gmail.com
+7:Quebra cabeca,7.7,7,BRINQUEDO,joana.lima@gmail.com
+7:Guarda roupa,99.99,9,MOVEL,joana.lima@gmail.com
+8:Quebra cabeca,7.7,7,BRINQUEDO,Joana Lima,joana.lima@gmail.com
+8:Uno,3.3,3,BRINQUEDO,Pedro de Souza,pedro_souza@email.com
+8:Carrinho de lomba,44.44,4,BRINQUEDO,Maria da Silva,maria.silva@email.com
+9:Xarope,4.4,44,MEDICAMENTO,44,Joana Lima,joana.lima@gmail.com
+10:Mario de Moura,mauro.moura@hotmail.com,188.87

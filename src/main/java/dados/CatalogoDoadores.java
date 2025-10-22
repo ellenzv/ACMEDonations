@@ -12,7 +12,8 @@ public class CatalogoDoadores {
         doadores = new ArrayList<>();
     }
 
-    public void lerArquivoDoadores() {
+    public String lerArquivoDoadores() {
+        StringBuilder resultadoSaida = new StringBuilder();
 
         Path path = Paths.get("recursos", "doadores.csv");
         try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
@@ -25,26 +26,32 @@ public class CatalogoDoadores {
                     String nome = sc.next();
                     String email = sc.next();
 
-                    cadastrarDoador(nome, email);
+                    resultadoSaida.append(cadastrarDoador(nome, email)).append("\n");
+
                 } catch (NoSuchElementException e) {
-                    System.out.println("1:ERRO:formato invalido.");
+                    resultadoSaida.append("1:ERRO:formato invalido.").append("\n");
                 }
             }
         } catch (IOException e) {
-            System.err.format("Erro ao ler o arquivo: %s%n", e);
+            resultadoSaida.append("Erro ao ler o arquivo").append("\n");
         }
+
+        if (!resultadoSaida.isEmpty()) {
+            resultadoSaida.setLength(resultadoSaida.length() - 1);
+        }
+
+        return resultadoSaida.toString();
     }
 
-    public void cadastrarDoador(String nome, String email) {
+    public String cadastrarDoador(String nome, String email) {
         for (Doador doador : doadores) {
             if (doador.getEmail().equals(email)) {
-                System.out.println("1:ERRO:doador repetido.");
-                return;
+                return "1:ERRO:doador repetido.";
             }
         }
         Doador novoDoador = new Doador(nome, email);
         doadores.add(novoDoador);
-        System.out.println("1:" + novoDoador.getNome() + "," + novoDoador.getEmail());
+        return "1:" + novoDoador.getNome() + "," + novoDoador.getEmail();
     }
 
     public Doador consultarDoadorPorEmail(String email) {
@@ -56,18 +63,18 @@ public class CatalogoDoadores {
     }
 
     public Doador consultarDoadorPorNome(String nome) {
-        for (Doador doador : doadores){
-            if(doador.getNome().equalsIgnoreCase(nome))
+        for (Doador doador : doadores) {
+            if (doador.getNome().equalsIgnoreCase(nome))
                 return doador;
         }
         return null;
     }
 
-    public List<Doador> getDoadores(){
+    public List<Doador> getDoadores() {
         List<Doador> listaAux = new ArrayList<>();
 
-        for(Doador doador : doadores){
-            if(doador != null)
+        for (Doador doador : doadores) {
+            if (doador != null)
                 listaAux.add(doador);
         }
         return listaAux;

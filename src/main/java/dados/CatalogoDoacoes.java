@@ -15,7 +15,8 @@ public class CatalogoDoacoes {
         this.catalogoDoadores = catalogoDoadores;
     }
 
-    public void lerArquivoDoacoesPereciveis() {
+    public String lerArquivoDoacoesPereciveis() {
+        StringBuilder sb = new StringBuilder();
 
         Path path = Paths.get("recursos", "doacoespereciveis.csv");
         try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
@@ -32,43 +33,59 @@ public class CatalogoDoacoes {
                     String tipo = sc.next();
                     int validade = Integer.parseInt(sc.next());
 
-                    cadastrarDoacaoPerecivel(descricao, valor, quantidade, tipo, validade, email);
+                    sb.append(cadastrarDoacaoPerecivel(descricao, valor, quantidade, tipo, validade, email))
+                            .append("\n");
+
                 } catch (NumberFormatException e) {
-                    System.out.println("2:ERRO:formato invalido.");
+                    sb.append("2:ERRO:formato invalido.").append("\n");
                 } catch (NoSuchElementException e) {
-                    System.out.println("2:ERRO:formato invalido.");
+                    sb.append("2:ERRO:formato invalido.").append("\n");
                 }
             }
         } catch (IOException e) {
-            System.err.format("Erro ao ler o arquivo: %s%n", e);
+            sb.append("Erro ao ler o arquivo").append("\n");
         } catch (NumberFormatException e) {
-            System.out.println("2:ERRO:formato invalido.");
+            sb.append("2:ERRO:formato invalido.").append("\n");
         }
+
+        if (!sb.isEmpty()) {
+            sb.setLength(sb.length() - 1);
+        }
+
+        return sb.toString();
     }
 
-    public void cadastrarDoacaoPerecivel(String descricao, double valor, int quantidade, String tipo, int validade, String email) {
+    public String cadastrarDoacaoPerecivel(String descricao, double valor, int quantidade, String tipo, int validade, String email) {
         TipoPerecivel tipoPerecivel;
+        StringBuilder resultadoSaida = new StringBuilder();
+
         try {
             tipoPerecivel = TipoPerecivel.valueOf(tipo.toUpperCase());
         } catch (IllegalArgumentException e) {
-            System.out.println("2:ERRO:tipo invalido.");
-            return;
+            return "2:ERRO:tipo invalido.";
+
         }
 
         Doador doador = this.catalogoDoadores.consultarDoadorPorEmail(email);
         if (doador == null) {
-            System.out.println("2:ERRO:doador inexistente.");
-            return;
+            return "2:ERRO:doador inexistente.";
         }
         Perecivel novaDoacaoPerecivel = new Perecivel(descricao, valor, quantidade, tipoPerecivel, validade, doador);
         doacoes.add(novaDoacaoPerecivel);
         doador.getDoacoesCadastradas().add(novaDoacaoPerecivel);
 
-        System.out.println("2:" + novaDoacaoPerecivel.getDescricao() + "," + novaDoacaoPerecivel.getValor() + "," +
-                novaDoacaoPerecivel.getQuantidade() + "," + novaDoacaoPerecivel.getTipoPerecivel() + "," + novaDoacaoPerecivel.getValidade());
+        resultadoSaida.append("2:")
+                .append(novaDoacaoPerecivel.getDescricao()).append(",")
+                .append(novaDoacaoPerecivel.getValor()).append(",")
+                .append(novaDoacaoPerecivel.getQuantidade()).append(",")
+                .append(novaDoacaoPerecivel.getTipoPerecivel()).append(",")
+                .append(novaDoacaoPerecivel.getValidade());
+
+        return resultadoSaida.toString();
     }
 
-    public void lerArquivoDoacoesDuraveis() {
+    public String lerArquivoDoacoesDuraveis() {
+        StringBuilder sb = new StringBuilder();
 
         Path path = Paths.get("recursos", "doacoesduraveis.csv");
         try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
@@ -85,111 +102,141 @@ public class CatalogoDoacoes {
                     String email = sc.next();
                     String tipo = sc.next();
 
-                    cadastrarDoacaoDuravel(descricao, valor, quantidade, tipo, email);
+                    sb.append(cadastrarDoacaoDuravel(descricao, valor, quantidade, tipo, email)).append("\n");
 
                 } catch (NumberFormatException e) {
-                    System.out.println("3:ERRO:formato invalido.");
+                    sb.append("3:ERRO:formato invalido.").append("\n");
                 } catch (NoSuchElementException e) {
-                    System.out.println("3:ERRO:formato invalido.");
+                    sb.append("3:ERRO:formato invalido.").append("\n");
                 }
             }
         } catch (IOException e) {
-            System.err.format("Erro ao ler o arquivo: %s%n", e);
+            sb.append("Erro ao ler o arquivo").append("\n");
         }
+
+        if (!sb.isEmpty()) {
+            sb.setLength(sb.length() - 1);
+        }
+
+        return sb.toString();
     }
 
-    public void cadastrarDoacaoDuravel(String descricao, double valor, int quantidade, String tipo, String email) {
+    public String cadastrarDoacaoDuravel(String descricao, double valor, int quantidade, String tipo, String email) {
         TipoDuravel tipoDuravel;
+        StringBuilder sb = new StringBuilder();
         try {
             tipoDuravel = TipoDuravel.valueOf(tipo.toUpperCase());
         } catch (IllegalArgumentException e) {
-            System.out.println("3:ERRO:tipo invalido.");
-            return;
+            return "3:ERRO:tipo invalido.";
+
         }
 
         Doador doador = catalogoDoadores.consultarDoadorPorEmail(email);
 
         if (doador == null) {
-            System.out.println("3:ERRO:doador inexistente.");
-            return;
+            return "3:ERRO:doador inexistente.";
+
         }
 
         Duravel novaDoacaoDuravel = new Duravel(descricao, valor, quantidade, tipoDuravel, doador);
         doacoes.add(novaDoacaoDuravel);
         doador.getDoacoesCadastradas().add(novaDoacaoDuravel);
-        System.out.println("3:" + novaDoacaoDuravel.getDescricao() + "," + novaDoacaoDuravel.getValor() + "," +
-                novaDoacaoDuravel.getQuantidade() + "," + novaDoacaoDuravel.getTipoDuravel());
+        sb.append("3:")
+                .append(novaDoacaoDuravel.getDescricao()).append(",")
+                .append(novaDoacaoDuravel.getValor()).append(",")
+                .append(novaDoacaoDuravel.getQuantidade()).append(",")
+                .append(novaDoacaoDuravel.getTipoDuravel());
+        return sb.toString();
     }
 
-    public void mostrarDoacoesCadastradas() {
+    public String mostrarDoacoesCadastradas() {
         if (doacoes.isEmpty())
-            System.out.println("5:ERRO:nenhuma doacao cadastrada.");
-        for (Doacao doacao : doacoes) {
-            System.out.println("5:" + doacao.geraResumo());
-        }
+            return "5:ERRO:nenhuma doacao cadastrada.";
+
+        return doacoes.stream()
+                .map(doacao -> "5:" + doacao.geraResumo())
+                .collect(Collectors.joining("\n"));
     }
 
-    public void quantidadeDoacoesDoador() {
+    public String quantidadeDoacoesDoador() {
         List<Doador> auxiliar = new ArrayList<>(catalogoDoadores.getDoadores());
 
-        if(auxiliar.isEmpty()){
-            System.out.println("6:ERRO:nenhum doador encontrado.");
-            return;
+        if (auxiliar.isEmpty()) {
+            return "6:ERRO:nenhum doador encontrado.";
         }
-        auxiliar.sort((doador1, doador2) -> Integer.compare(
-                doador2.getDoacoesCadastradas().size(),
-                doador1.getDoacoesCadastradas().size()
-        ));
+//        auxiliar.sort((doador1, doador2) -> Integer.compare(
+//                doador2.getDoacoesCadastradas().size(),
+//                doador1.getDoacoesCadastradas().size()
+//        ));
 
-        for(Doador doador : auxiliar){
-            System.out.println("6:" + doador.getNome() + "," + doador.getEmail() + ","
-                    + doador.getDoacoesCadastradas().size());
-        }
+        return auxiliar.stream()
+                .map(doador -> "6:" + doador.getNome() + "," + doador.getEmail() + "," + doador.getDoacoesCadastradas().size())
+                .collect(Collectors.joining("\n"));
+
+//        for(Doador doador : auxiliar){
+//            System.out.println("6:" + doador.getNome() + "," + doador.getEmail() + ","
+//                    + doador.getDoacoesCadastradas().size());
+//        }
     }
 
-    public void mostrarDoacoesDoador(String nome) {
+    public String mostrarDoacoesDoador(String nome) {
+        StringBuilder sb = new StringBuilder();
+
         Doador doador = catalogoDoadores.consultarDoadorPorNome(nome);
         boolean encontrado = false;
 
         for (Doacao doacao : doacoes) {
             if (doacao.getDoador().equals(doador)) {
-                System.out.println("7:" + doacao.geraResumoSemNome());
+                sb.append("7:")
+                        .append(doacao.geraResumoSemNome())
+                        .append("\n");
                 encontrado = true;
             }
         }
         if (!encontrado) {
-            System.out.println("7:ERRO:nenhuma doacao localizada.");
+            return "7:ERRO:nenhuma doacao localizada.";
         }
+
+        if (!sb.isEmpty())
+            sb.setLength(sb.length() - 1);
+
+        return sb.toString();
     }
 
-
-    public void mostrarDuraveisPorTipo(String tipo) {
+    public String mostrarDuraveisPorTipo(String tipo) {
         TipoDuravel tipoDuravel;
+        StringBuilder sb = new StringBuilder();
 
         try {
             tipoDuravel = TipoDuravel.valueOf(tipo.toUpperCase());
         } catch (IllegalArgumentException e) {
-            System.out.println("8:ERRO:tipo invalido.");
-            return;
+            return "8:ERRO:tipo invalido.";
         }
         for (Doacao doacao : doacoes) {
             if (doacao instanceof Duravel doacaoDuravel) {
                 if (doacaoDuravel.getTipoDuravel().equals(tipoDuravel))
-                    System.out.println("8:" + doacao.geraResumo());
+                    sb.append("8:")
+                            .append(doacao.geraResumo())
+                            .append("\n");
             }
         }
+
+        if(!sb.isEmpty())
+            sb.setLength(sb.length()-1);
+
+        return sb.toString();
     }
 
-    public void doacaoPerecivelMaiorQuantidade(String tipo) {
+    public String doacaoPerecivelMaiorQuantidade(String tipo) {
         int maior = 0;
         Perecivel maiorDoacaoPerecivel = null;
         TipoPerecivel tipoPerecivel;
+        StringBuilder sb = new StringBuilder();
 
         try {
             tipoPerecivel = TipoPerecivel.valueOf(tipo.toUpperCase());
         } catch (IllegalArgumentException e) {
-            System.out.println("9:ERRO:tipo invalido.");
-            return;
+            return "9:ERRO:tipo invalido.";
         }
 
         for (Doacao doacao : doacoes) {
@@ -202,18 +249,20 @@ public class CatalogoDoacoes {
             }
         }
         if (maiorDoacaoPerecivel != null) {
-            System.out.println("9:" + maiorDoacaoPerecivel.geraResumo());
+            sb.append("9:")
+                    .append(maiorDoacaoPerecivel.geraResumo());
         } else {
-            System.out.println("9:ERRO:nenhuma doacao localizada.");
+            return "9:ERRO:nenhuma doacao localizada.";
         }
+        return sb.toString();
     }
 
-    public void doadorMaiorMontante() {
+    public String doadorMaiorMontante() {
         List<Doador> doadores = catalogoDoadores.getDoadores();
+        StringBuilder sb = new StringBuilder();
 
         if (doadores.isEmpty()) {
-            System.out.println("10:ERRO:nenhum doador localizado.");
-            return;
+            return "10:ERRO:nenhum doador localizado.";
         }
 
         Doador maiorDoador = null;
@@ -231,8 +280,13 @@ public class CatalogoDoacoes {
         }
 
         if (maiorDoador != null) {
-            System.out.println("10:" + maiorDoador.getNome() + "," + maiorDoador.getEmail() + "," + maiorMontante);
+            sb.append("10:")
+                    .append(maiorDoador.getNome()).append(",")
+                    .append(maiorDoador.getEmail()).append(",")
+                    .append(maiorMontante);
         }
+
+        return sb.toString();
     }
 
 }
